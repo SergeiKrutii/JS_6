@@ -4,7 +4,12 @@ import { getImages } from './api/fetch';
 import { makeMarcup } from './api/markup';
 
 refs.form.addEventListener('submit', onImageSearch);
+refs.button.addEventListener('click', onButtonClick);
+
+let paginatinon = 1;
+
 console.dir(refs.button);
+
 refs.button.setAttribute('hidden', true)
 async function onImageSearch(e) {
     e.preventDefault();
@@ -18,4 +23,9 @@ async function onImageSearch(e) {
     }
     refs.div.insertAdjacentHTML('beforeend', markup);
     refs.button.removeAttribute('hidden');
+    
+}
+
+function onButtonClick() {
+    paginatinon += 1;
 }
