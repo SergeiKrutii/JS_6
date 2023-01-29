@@ -11,24 +11,34 @@ refs.button.setAttribute('hidden', true);
 
 async function onImageSearch(e) {
   e.preventDefault();
-
   imageService.query = e.currentTarget.elements.searchQuery.value;
 
-  const pictures = await imageService.fetchImages();
   imageService.resetPage();
-  const markup = makeMarcup(pictures);
-  if (markup.length === 0) {
+
+  const pictures = await imageService.fetchImages();
+  // clearGallery();
+
+  if (pictures.length === 0) {
     Notify.failure(
       'Sorry, there are no images matching your search query. Please try again.'
     );
+    return;
   }
-  refs.div.insertAdjacentHTML('beforeend', markup);
+  
+  appendMarcup(pictures);
   refs.button.removeAttribute('hidden');
 }
 
-function onLoadMore() {
+async function onLoadMore() {
   imageService.incrementPage();
+  const pictures = await imageService.fetchImages();
+  console.log(pictures);
+  appendMarcup(pictures);
 }
-function clearGallery {
-  
+// function clearGallery() {
+//   refs.div.insertAdjacentHTML = '';
+// }
+
+function appendMarcup(pictures) {
+  refs.div.insertAdjacentHTML('beforeend', makeMarcup(pictures));
 }

@@ -20,7 +20,6 @@ function makeMarcup(pictures) {
       };
     }
   );
-//   console.log(normalizedData)
 
   const markup = normalizedData.map(({
     webformatURL,
