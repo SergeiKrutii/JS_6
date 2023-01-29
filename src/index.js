@@ -4,7 +4,7 @@ import { makeMarcup } from './api/markup';
 import NewImageService from './api/fetch';
 
 refs.form.addEventListener('submit', onImageSearch);
-refs.button.addEventListener('click', onButtonClick);
+refs.button.addEventListener('click', onLoadMore);
 const imageService = new NewImageService();
 
 refs.button.setAttribute('hidden', true);
@@ -13,11 +13,9 @@ async function onImageSearch(e) {
   e.preventDefault();
 
   imageService.query = e.currentTarget.elements.searchQuery.value;
-  if (NewImageService.query === '') {
-    return alert('clear')
-  }
+
   const pictures = await imageService.fetchImages();
-  console.log(pictures)
+  imageService.resetPage();
   const markup = makeMarcup(pictures);
   if (markup.length === 0) {
     Notify.failure(
@@ -28,6 +26,9 @@ async function onImageSearch(e) {
   refs.button.removeAttribute('hidden');
 }
 
-function onButtonClick() {
-  paginatinon += 1;
+function onLoadMore() {
+  imageService.incrementPage();
+}
+function clearGallery {
+  
 }

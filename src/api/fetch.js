@@ -2,7 +2,7 @@ const axios = require('axios').default;
 const BASE_URL = 'https://pixabay.com/api/';
 const API_KEY = '?key=33125565-bcbdb194cdd5c3277aaf5f84a&';
 const params =
-'image_type=photo&orientation=horizontal&safesearch=true&page=5&per_page=12';
+'image_type=photo&orientation=horizontal&safesearch=true&per_page=12';
 
 export default class NewImageService {
   constructor() {
@@ -15,7 +15,7 @@ export default class NewImageService {
     try {
       console.log(this.searchQuery);
       const response = await axios.get(
-        `${BASE_URL}${API_KEY}q=${this.searchQuery}&${params}`
+        `${BASE_URL}${API_KEY}q=${this.searchQuery}&${params}&page=${this.page}`
       );
       const data = response.data.hits;
       this.incrementPage();
