@@ -21,17 +21,19 @@ function makeMarcup(pictures) {
     }
   );
 
-  const markup = normalizedData.map(({
-    webformatURL,
-    largeImageURL,
-    tags,
-    likes,
-    views,
-    comments,
-    downloads,
-  }) => `
+  const markup = normalizedData
+    .map(
+      ({
+        webformatURL,
+        largeImageURL,
+        tags,
+        likes,
+        views,
+        comments,
+        downloads,
+      }) => `
   <div class="photo-card">
-  <img src="${webformatURL}" alt="${tags}" loading="lazy" />
+  <a class="gallery__item" href="${largeImageURL}"><img src="${webformatURL}" alt="${tags}" loading="lazy" /></a>
   <div class="info">
     <p class="info-item">
       <b>Likes ${likes}</b>
@@ -47,7 +49,9 @@ function makeMarcup(pictures) {
     </p>
   </div>
 </div>
-  `).join('');
+  `
+    )
+    .join('');
   return markup;
 }
 
