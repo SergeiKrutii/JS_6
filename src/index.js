@@ -11,20 +11,21 @@ refs.button.setAttribute('hidden', true);
 
 async function onImageSearch(e) {
   e.preventDefault();
-  imageService.query = e.currentTarget.elements.searchQuery.value;
+  
+  // (() => {
+  //   refs.div.insertAdjacentHTML = ' ';
+  // })()
 
+  imageService.query = e.currentTarget.elements.searchQuery.value;
   imageService.resetPage();
 
   const pictures = await imageService.fetchImages();
-  // clearGallery();
-
   if (pictures.length === 0) {
     Notify.failure(
       'Sorry, there are no images matching your search query. Please try again.'
     );
     return;
   }
-  
   appendMarcup(pictures);
   refs.button.removeAttribute('hidden');
 }
@@ -35,9 +36,6 @@ async function onLoadMore() {
   console.log(pictures);
   appendMarcup(pictures);
 }
-// function clearGallery() {
-//   refs.div.insertAdjacentHTML = '';
-// }
 
 function appendMarcup(pictures) {
   refs.div.insertAdjacentHTML('beforeend', makeMarcup(pictures));
