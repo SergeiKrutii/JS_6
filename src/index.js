@@ -18,6 +18,9 @@ async function onImageSearch(e) {
 
   imageService.query = e.currentTarget.elements.searchQuery.value;
   imageService.resetPage();
+  (() => {
+    refs.div.innerHTML = '';
+  })()
 
   const pictures = await imageService.fetchImages();
   if (pictures.length === 0) {
@@ -27,16 +30,28 @@ async function onImageSearch(e) {
     return;
   }
   appendMarcup(pictures);
+  console.log('34')
   refs.button.removeAttribute('hidden');
 }
 
 async function onLoadMore() {
   imageService.incrementPage();
-  const pictures = await imageService.fetchImages();
-  console.log(pictures);
+  const { hits: pictures } = await imageService.fetchImages();
+  checkImageAmount();
   appendMarcup(pictures);
 }
-
 function appendMarcup(pictures) {
   refs.div.insertAdjacentHTML('beforeend', makeMarcup(pictures));
+}
+function checkImageAmount(pictures) {
+  if (pictures.length < 40) {
+    Notify.failure(
+      "We're sorry, but you've reached the end of search results."
+    );
+    refs.button.setAttribute('hidden', true);
+    appendMarcup(pictures);
+    console.log('check')
+    // return;
+  }
+  return;
 }
