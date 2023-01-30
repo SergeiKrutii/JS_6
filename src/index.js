@@ -5,44 +5,53 @@ import NewImageService from './api/fetch';
 
 refs.form.addEventListener('submit', onImageSearch);
 refs.button.addEventListener('click', onLoadMore);
-const imageService = new NewImageService();
-
 refs.button.setAttribute('hidden', true);
+
+const imageService = new NewImageService();
 
 async function onImageSearch(e) {
   e.preventDefault();
-  
-  // (() => {
-  //   refs.div.insertAdjacentHTML = ' ';
-  // })()
 
+  refs.button.setAttribute('hidden', true);
   imageService.query = e.currentTarget.elements.searchQuery.value;
   imageService.resetPage();
+
   (() => {
     refs.div.innerHTML = '';
-  })()
+  })();
 
-  const pictures = await imageService.fetchImages();
+  const { hits: pictures, totalHits } = await imageService.fetchImages();
+  console.log(pictures);
   if (pictures.length === 0) {
     Notify.failure(
       'Sorry, there are no images matching your search query. Please try again.'
     );
     return;
   }
+
+  if (checkImageAmount(pictures)) {
+    return;
+  }
+
+  Notify.info(`Hooray! We found ${totalHits} images.`);
   appendMarcup(pictures);
-  console.log('34')
+  console.log('34');
   refs.button.removeAttribute('hidden');
 }
 
 async function onLoadMore() {
   imageService.incrementPage();
   const { hits: pictures } = await imageService.fetchImages();
-  checkImageAmount();
+  if (checkImageAmount(pictures)) {
+    return;
+  }
   appendMarcup(pictures);
 }
+
 function appendMarcup(pictures) {
   refs.div.insertAdjacentHTML('beforeend', makeMarcup(pictures));
 }
+
 function checkImageAmount(pictures) {
   if (pictures.length < 40) {
     Notify.failure(
@@ -50,8 +59,7 @@ function checkImageAmount(pictures) {
     );
     refs.button.setAttribute('hidden', true);
     appendMarcup(pictures);
-    console.log('check')
-    // return;
+    console.log('check');
+    return true;
   }
-  return;
 }
