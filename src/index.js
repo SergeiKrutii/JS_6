@@ -1,3 +1,5 @@
+import SimpleLightbox from 'simplelightbox';
+import 'simplelightbox/dist/simple-lightbox.min.css';
 import { Notify } from 'notiflix/build/notiflix-notify-aio';
 import { refs } from './api/refs';
 import { makeMarcup } from './api/markup';
@@ -8,6 +10,7 @@ refs.button.addEventListener('click', onLoadMore);
 refs.button.setAttribute('hidden', true);
 
 const imageService = new NewImageService();
+const lightbox = new SimpleLightbox('.gallery__item');
 
 async function onImageSearch(e) {
   e.preventDefault();
@@ -35,6 +38,7 @@ async function onImageSearch(e) {
 
   Notify.info(`Hooray! We found ${totalHits} images.`);
   appendMarcup(pictures);
+  lightbox.refresh();
   console.log('34');
   refs.button.removeAttribute('hidden');
 }
@@ -46,6 +50,7 @@ async function onLoadMore() {
     return;
   }
   appendMarcup(pictures);
+lightbox.refresh();
 }
 
 function appendMarcup(pictures) {
@@ -59,6 +64,7 @@ function checkImageAmount(pictures) {
     );
     refs.button.setAttribute('hidden', true);
     appendMarcup(pictures);
+   lightbox.refresh();
     console.log('check');
     return true;
   }
