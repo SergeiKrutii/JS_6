@@ -16,9 +16,16 @@ body {
 .gallery {
   display: flex;
   flex-wrap: wrap;
-  // margin-top: 50px;
   margin-left: -20px;
   padding: 0 10px;
+
+}
+// [name="searchQuery"] 
+input{
+  border-radius: 5px;
+  border-style: none;
+  height: 30px;
+  
 }
 .photo-card {
   cursor: pointer;
@@ -51,16 +58,12 @@ img {
   font-size: 19px;
 }
 .search-form {
-
   display: flex;
   flex-wrap: nowrap;
   justify-content: center;
   text-align: center;
-  // margin-bottom: 20px;
 }
-input {
-  height: 30px;
-}
+
 .load-more {
   cursor: pointer;
   margin-top: 20px;
