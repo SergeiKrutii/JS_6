@@ -46,6 +46,8 @@ img {
   display: flex;
   justify-content: center;
   text-align: center;
+  flex-wrap: wrap;
+  
   width: auto;
   height: auto;
   box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.12), 0px 4px 4px rgba(0, 0, 0, 0.06),
@@ -53,9 +55,13 @@ img {
 }
 .info-item {
   display: flex;
-  flex-wrap: wrap;
+  flex-direction: column;
+  justify-content: center;
+  text-align: center;
   font-family: 'Roboto Condensed';
-  font-size: 19px;
+  font-size: 13px;
+
+  margin: 10px 8px;
 }
 .search-form {
   display: flex;
