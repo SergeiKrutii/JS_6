@@ -7,8 +7,6 @@ import NewImageService from './api/fetch';
 
 refs.form.addEventListener('submit', onImageSearch);
 refs.button.addEventListener('click', onLoadMore);
-// refs.div.addEventListener('scroll', onSmoothlyScroll)
-
 refs.button.setAttribute('hidden', true);
 
 const imageService = new NewImageService();
@@ -26,19 +24,18 @@ async function onImageSearch(e) {
   })();
 
   const { hits: pictures, totalHits } = await imageService.fetchImages();
-  console.log(pictures);
   if (pictures.length === 0) {
     Notify.failure(
       'Sorry, there are no images matching your search query. Please try again.'
     );
     return;
   }
+  Notify.info(`Hooray! We found ${totalHits} images.`);
 
   if (checkImageAmount(pictures)) {
     return;
   }
 
-  Notify.info(`Hooray! We found ${totalHits} images.`);
   appendMarcup(pictures);
   lightbox.refresh();
   onSmoothlyScroll(0)
@@ -53,7 +50,7 @@ async function onLoadMore() {
   }
   appendMarcup(pictures);
   lightbox.refresh();
-  onSmoothlyScroll(2)
+  onSmoothlyScroll(1)
 }
 
 function appendMarcup(pictures) {
@@ -61,18 +58,19 @@ function appendMarcup(pictures) {
 }
 
 function checkImageAmount(pictures) {
+  
   if (pictures.length < 40) {
     Notify.failure(
       "We're sorry, but you've reached the end of search results."
-      );
-      refs.button.setAttribute('hidden', true);
-      appendMarcup(pictures);
-      lightbox.refresh();
-      onSmoothlyScroll(2)
-      return true;
-    }
-    return false;
+    );
+    refs.button.setAttribute('hidden', true);
+    appendMarcup(pictures);
+    lightbox.refresh();
+    onSmoothlyScroll(2);
+    return true;
   }
+  return false;
+}
   
   function onSmoothlyScroll(number) {
     const { height: cardHeight } = refs.div
@@ -83,5 +81,3 @@ function checkImageAmount(pictures) {
       behavior: 'smooth',
     });
   }
-  
-  console.dir(refs.div)
